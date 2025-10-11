@@ -7,7 +7,7 @@ stock_price_sewing_thread_100m = price_sewing_thread_100m * stock_level_sewing_t
 
 # Zipper (20cm) 
 price_zipper_20cm = 0.65
-stock_zipper_20cm = 97
+stock_level_zipper_20cm = 97
 stock_price_zipper_20cm = price_zipper_20cm * stock_level_zipper_20cm
 
 # Wooden Buttons (Pack of 10)
@@ -55,11 +55,11 @@ stock_price_thimble_metal = price_thimble_metal * stock_level_thimble_metal
 
 # Total stock price calculation
 
-total_stock_price = stock_price_sewing_thread_100m + stock_price_zipper_20cm + stock_price_wooden_buttons_pack_of_10 + stock_price_iron_on_interfacing_1m + stock_price_bias_binding_2 + stock_price_hook_and_eye_set_10_pairs + stock_price_seam_ripper + stock_price_tailors_chalk_3_pack + stock_price_elastic_1m_25mm_wide + stock_price_thimble_metal
+total_stock_price = stock_price_sewing_thread_100m + stock_price_zipper_20cm + stock_price_wooden_buttons_pack_of_10 + stock_price_iron_on_interfacing_1m + stock_price_bias_binding_2_5m + stock_price_hook_and_eye_set_10_pairs + stock_price_seam_ripper + stock_price_tailors_chalk_3_pack + stock_price_elastic_1m_25mm_wide + stock_price_thimble_metal
 
 
 
 
 # Print total stock price
 
-print(total_stock_price)
+print("Total stock price = £" + total_stock_price)
