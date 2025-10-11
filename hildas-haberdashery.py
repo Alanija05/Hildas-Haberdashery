@@ -20,10 +20,10 @@ price_iron_on_interfacing_1m = 2.50
 stock_level_iron_on_interfacing_1m = 76
 stock_price_iron_on_interfacing_1m = price_iron_on_interfacing_1m * stock_level_iron_on_interfacing_1m
 
-# bias_binding_2-5m
-price_bias_binding_2-5m = 1.10
-stock_level_bias_binding_2-5m = 213
-stock_price_bias_binding_2-5m = price_bias_binding_2-5m * stock_level_bias_binding_2-5m
+# bias_binding_2.5m
+price_bias_binding_2_5m = 1.10
+stock_level_bias_binding_2_5m = 213
+stock_price_bias_binding_2_5m = price_bias_binding_2-5m * stock_level_bias_binding_2-5m
 
 # hook_and_eye_set_10_pairs
 price_hook_and_eye_set_10_pairs = 0.90
