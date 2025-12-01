@@ -22,12 +22,30 @@ def write_to_file(dataset: list, filename: str):
     else:
         file.write("Product name, Price, Stock\n")
         for item in dataset:
-            line = item[0] + ", £" + str(item[1]) + ", " + str(item[2]) + "\n"
+            line = item[0] + ",£" + str(item[1]) + "," + str(item[2]) + "\n"
             file.write(line)
         print(f"Data written to {filename}")
     finally:
         file.close()
 
+
+
+def read_all_items_from_file(filename):
+    try:
+        file = open(filename, "r")
+    except Exception as ex:
+        print(f"Data not read - {ex}")
+    else:
+        print("\nDisplaying all products\n")
+        all_lines = []
+        for line in file:
+            split_line = line.split(",")
+            all_lines.append(split_line)
+            print(f" - Product: {split_line[0]}   |   Price: {split_line[1]}   |   Stock level: {split_line[2]}")
+    finally:
+        file.close()
+    
+    return split_line
 
 
 def add_stock(item_name: str, increase_amount=1) -> None:
@@ -79,13 +97,6 @@ def print_item_stock(item_name: str) -> None:
 
 
 
-def display_stock_list() -> None:
-    print("\nCurrent product list:")
-    for item in stock_list:
-        print(f"- {item[0]}: £{item[1]:.2f}, Stock: {item[2]}")
-
-
-
 def main():
     exit_system = False
 
@@ -102,7 +113,7 @@ def main():
         else:
             match choice:
                 case "0":
-                    display_stock_list()
+                    read_all_items_from_file("products.csv")
 
                 case "1":
                     total_stock_price = calculate_total_stock_price()
