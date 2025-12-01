@@ -28,62 +28,66 @@ def remove_stock(item_name: str, decrease_amount=1) -> None:
             return
     print("Item not found")
 
+def calculate_total_stock_price() -> float:
+    total_stock_price = 0
+
+    for item in stock_list:
+        item_stock_price = item[1] * item[2]
+        total_stock_price += item_stock_price
+
+    return total_stock_price
+
+def print_item_price(item_name: str) -> None:
+    for item in stock_list:
+        if item_name.lower() == item[0]:
+            print(f"\nThe price of {item[0]} is £{item[1]:.2f}")
+            return
+    print("Item not found")
+
+def print_item_stock(item_name: str) -> None:
+    for item in stock_list:
+        if item_name.lower() == item[0]:
+            print(f"\nThe stock of {item[0]} is {item[2]}")
+            return
+    print("Item not found")
+
+def display_stock_list() -> None:
+    print("\nCurrent product list:")
+    for item in stock_list:
+        print(f"- {item[0]}: £{item[1]:.2f}, Stock: {item[2]}")
+
 
 exit_system = False
 
 print("Welcome to Hilda's Haberdashery system! What would you like to do:")
 while exit_system == False:
-    print("\n1. Print total stock price\n2. Print item stock\n3. Print item price\n4. Add stock\n5. Remove stock\n6. Exit system")
+    print("\n0. Display stock list\n1. Print total stock price\n2. Print item stock\n3. Print item price\n4. Add stock\n5. Remove stock\n6. Exit system")
     try:
-        choice = input("\nEnter what you would like to do (1-6): ")
+        choice = input("\nEnter what you would like to do (0-6): ")
 
         match choice:
+            case "0":
+                display_stock_list()
+
             case "1":
-                # Total stock price calculation
-                total_stock_price = 0
-
-                for item in stock_list:
-                    item_stock_price = item[1] * item[2]
-                    total_stock_price += item_stock_price
-
-                # Print total stock price
-                print("Total stock price = £", total_stock_price)
+                total_stock_price = calculate_total_stock_price()
+                print(f"\nThe total stock price is £{total_stock_price:.2f}")
 
             case "2":
-                item_found = False
-                item_name = input("\nEnter the name of the item: ")
-                for item in stock_list:
-                    if item_name.lower() == item[0]:
-                        item_found = True
-                        print(f"\nThe stock of {item[0]} is {item[2]}")
-
-                if item_found == False:
-                    print("Item not found")
+                print_item_stock(item_name=input("\nEnter the name of the item: "))
 
             case "3":
-                item_found = False
-                item_name = input("\nEnter the name of the item: ")
-                for item in stock_list:
-                    if item_name.lower() == item[0]:
-                        item_found = True
-                        print(f"\nThe stock of {item[0]} is {item[2]}")
-
-                if item_found == False:
-                    print("Item not found")
+                print_item_price(item_name=input("\nEnter the name of the item: "))
 
             case "4":
                 try:
-                    item_name = input("\nEnter the name of the item: ")
-                    increase_amount = int(input("\nEnter the number to increase the stock by: "))
-                    add_stock(item_name=item_name, increase_amount=increase_amount)
+                    add_stock(item_name=input("\nEnter the name of the item: "), increase_amount=int(input("\nEnter the number to increase the stock by: ")))
                 except ValueError as e:
                     print(f"\nException caught - {e}\nMake sure to enter the correct data type")
 
             case "5":
                 try:
-                    item_name = input("\nEnter the name of the item: ")
-                    decrease_amount = int(input("\nEnter the number to decrease the stock by: "))
-                    remove_stock(item_name=item_name, decrease_amount=decrease_amount)
+                    remove_stock(item_name=input("\nEnter the name of the item: "), decrease_amount=int(input("\nEnter the number to decrease the stock by: ")))
                 except ValueError as e:
                     print(f"\nException caught - {e}\nMake sure to enter the correct data type")
 
@@ -92,6 +96,7 @@ while exit_system == False:
 
             case _:
                 print("\nOption not recognized, try again!")
+
     except Exception as e:
         print(f"\nUnknow exception caught - {e}")
         exit_system = True
