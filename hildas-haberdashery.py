@@ -14,7 +14,7 @@ stock_list = [
 
 
 
-def write_to_file(dataset: list, filename: str):
+def write_to_file(dataset: list, filename: str) -> None:
     try:
         file = open(filename, "w+")
     except Exception as ex:
@@ -30,7 +30,7 @@ def write_to_file(dataset: list, filename: str):
 
 
 
-def display_all_items_from_file(filename):
+def display_all_items_from_file(filename: str) -> None:
     try:
         with open(filename, "r") as file:
             print("\nDisplaying all products\n")
@@ -39,8 +39,21 @@ def display_all_items_from_file(filename):
                 print(f" - Product: {split_line[0]}   |   Price: {split_line[1]}   |   Stock level: {split_line[2]}")
     except Exception as ex:
         print(f"Data not read - {ex}")
-        
+
     
+
+def print_item_from_file(item_name: str, filename: str) -> None:
+    try:
+        with open(filename, "r") as file:
+            for line in file:
+                split_line = line.split(",")
+                if item_name.lower() == split_line[0]:
+                    print("\nFound product. Displaying details:\n")
+                    print(f" - Product: {split_line[0]}   |   Price: {split_line[1]}   |   Stock level: {split_line[2]}")
+                    return
+            print("\nProduct not found")
+    except Exception as ex:
+        print(f"Data not read - {ex}")
 
 
 def add_stock(item_name: str, increase_amount=1) -> None:
@@ -74,32 +87,15 @@ def calculate_total_stock_price() -> float:
 
 
 
-def print_item_price(item_name: str) -> None:
-    for item in stock_list:
-        if item_name.lower() == item[0]:
-            print(f"\nThe price of {item[0]} is £{item[1]:.2f}")
-            return
-    print("Item not found")
-
-
-
-def print_item_stock(item_name: str) -> None:
-    for item in stock_list:
-        if item_name.lower() == item[0]:
-            print(f"\nThe stock of {item[0]} is {item[2]}")
-            return
-    print("Item not found")
-
-
 
 def main():
     exit_system = False
 
     print("Welcome to Hilda's Haberdashery system! What would you like to do:")
     while exit_system == False:
-        print("\n0. Display stock list\n1. Print total stock price\n2. Print item stock\n3. Print item price\n4. Add stock\n5. Remove stock\n6. Exit system")
+        print("\n0. Display stock list\n1. Print item details\n2. Calculate total stock price\n3. Add stock\n4. Remove stock\n5. Exit system")
         try:
-            choice = input("\nEnter what you would like to do (0-6): ")
+            choice = input("\nEnter what you would like to do (0-5): ")
 
         except Exception as e:
             print(f"\nUnknow exception caught - {e}")
@@ -111,28 +107,28 @@ def main():
                     display_all_items_from_file("products.csv")
 
                 case "1":
+                    try:
+                        print_item_from_file(item_name=input("\nEnter item name: "), filename="products.csv")
+                    except Exception as ex:
+                        print(f"Exception caught - {ex}")
+
+                case "2":
                     total_stock_price = calculate_total_stock_price()
                     print(f"\nThe total stock price is £{total_stock_price:.2f}")
 
-                case "2":
-                    print_item_stock(item_name=input("\nEnter the name of the item: "))
-
                 case "3":
-                    print_item_price(item_name=input("\nEnter the name of the item: "))
-
-                case "4":
                     try:
                         add_stock(item_name=input("\nEnter the name of the item: "), increase_amount=int(input("\nEnter the number to increase the stock by: ")))
                     except ValueError as e:
                         print(f"\nException caught - {e}\nMake sure to enter the correct data type")
 
-                case "5":
+                case "4":
                     try:
                         remove_stock(item_name=input("\nEnter the name of the item: "), decrease_amount=int(input("\nEnter the number to decrease the stock by: ")))
                     except ValueError as e:
                         print(f"\nException caught - {e}\nMake sure to enter the correct data type")
 
-                case "6":
+                case "5":
                     exit_system = True
 
                 case _:
