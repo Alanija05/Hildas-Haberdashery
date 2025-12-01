@@ -12,12 +12,20 @@ stock_list = [
     ["thimble", 1, 121]
 ]
 
+def add_stock(item_name: str, increase_amount=1) -> None:
+    for item in stock_list:
+        if item_name.lower() == item[0]:
+            item[2] += increase_amount
+            print(f"\nItem found. Increased stock by {increase_amount} for a total of {item[2]}")
+            return
+    print("Item not found")
+
 
 exit_system = False
 
 print("Welcome to Hilda's Haberdashery system! What would you like to do:")
 while exit_system == False:
-    print("\n1. Print total stock price\n2. Print item stock\n3. Print item price\n4. Quit")
+    print("\n1. Print total stock price\n2. Print item stock\n3. Print item price\n4. Add stock\n5. Quit")
     try:
         choice = input("\nEnter what you would like to do (1-4): ")
 
@@ -56,6 +64,14 @@ while exit_system == False:
                     print("Item not found")
 
             case "4":
+                try:
+                    item_name = input("\nEnter the name of the item: ")
+                    increase_amount = int(input("\nEnter the number to increase the stock by: "))
+                    add_stock(item_name=item_name, increase_amount=increase_amount)
+                except ValueError as e:
+                    print(f"\nException caught - {e}\nMake sure to enter the correct data type")
+
+            case "5":
                 exit_system = True
 
             case _:
