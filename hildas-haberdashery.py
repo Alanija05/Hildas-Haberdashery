@@ -12,6 +12,24 @@ stock_list = [
     ["thimble", 1, 121]
 ]
 
+
+
+def write_to_file(dataset: list, filename: str):
+    try:
+        file = open(filename, "w+")
+    except Exception as ex:
+        print(f"Data not written - {ex}")
+    else:
+        file.write("Product name, Price, Stock\n")
+        for item in dataset:
+            line = item[0] + ", £" + str(item[1]) + ", " + str(item[2]) + "\n"
+            file.write(line)
+        print(f"Data written to {filename}")
+    finally:
+        file.close()
+
+
+
 def add_stock(item_name: str, increase_amount=1) -> None:
     for item in stock_list:
         if item_name.lower() == item[0]:
@@ -20,6 +38,8 @@ def add_stock(item_name: str, increase_amount=1) -> None:
             return
     print("Item not found")
 
+
+
 def remove_stock(item_name: str, decrease_amount=1) -> None:
     for item in stock_list:
         if item_name.lower() == item[0]:
@@ -27,6 +47,8 @@ def remove_stock(item_name: str, decrease_amount=1) -> None:
             print(f"\nItem found. Decreased stock by {decrease_amount} for a total of {item[2]}")
             return
     print("Item not found")
+
+
 
 def calculate_total_stock_price() -> float:
     total_stock_price = 0
@@ -37,12 +59,16 @@ def calculate_total_stock_price() -> float:
 
     return total_stock_price
 
+
+
 def print_item_price(item_name: str) -> None:
     for item in stock_list:
         if item_name.lower() == item[0]:
             print(f"\nThe price of {item[0]} is £{item[1]:.2f}")
             return
     print("Item not found")
+
+
 
 def print_item_stock(item_name: str) -> None:
     for item in stock_list:
@@ -51,53 +77,59 @@ def print_item_stock(item_name: str) -> None:
             return
     print("Item not found")
 
+
+
 def display_stock_list() -> None:
     print("\nCurrent product list:")
     for item in stock_list:
         print(f"- {item[0]}: £{item[1]:.2f}, Stock: {item[2]}")
 
 
-exit_system = False
 
-print("Welcome to Hilda's Haberdashery system! What would you like to do:")
-while exit_system == False:
-    print("\n0. Display stock list\n1. Print total stock price\n2. Print item stock\n3. Print item price\n4. Add stock\n5. Remove stock\n6. Exit system")
-    try:
-        choice = input("\nEnter what you would like to do (0-6): ")
+def main():
+    exit_system = False
 
-    except Exception as e:
-        print(f"\nUnknow exception caught - {e}")
-        exit_system = True
-    
-    else:
-        match choice:
-            case "0":
-                display_stock_list()
+    print("Welcome to Hilda's Haberdashery system! What would you like to do:")
+    while exit_system == False:
+        print("\n0. Display stock list\n1. Print total stock price\n2. Print item stock\n3. Print item price\n4. Add stock\n5. Remove stock\n6. Exit system")
+        try:
+            choice = input("\nEnter what you would like to do (0-6): ")
 
-            case "1":
-                total_stock_price = calculate_total_stock_price()
-                print(f"\nThe total stock price is £{total_stock_price:.2f}")
+        except Exception as e:
+            print(f"\nUnknow exception caught - {e}")
+            exit_system = True
+        
+        else:
+            match choice:
+                case "0":
+                    display_stock_list()
 
-            case "2":
-                print_item_stock(item_name=input("\nEnter the name of the item: "))
+                case "1":
+                    total_stock_price = calculate_total_stock_price()
+                    print(f"\nThe total stock price is £{total_stock_price:.2f}")
 
-            case "3":
-                print_item_price(item_name=input("\nEnter the name of the item: "))
+                case "2":
+                    print_item_stock(item_name=input("\nEnter the name of the item: "))
 
-            case "4":
-                try:
-                    add_stock(item_name=input("\nEnter the name of the item: "), increase_amount=int(input("\nEnter the number to increase the stock by: ")))
-                except ValueError as e:
-                    print(f"\nException caught - {e}\nMake sure to enter the correct data type")
+                case "3":
+                    print_item_price(item_name=input("\nEnter the name of the item: "))
 
-            case "5":
-                try:
-                    remove_stock(item_name=input("\nEnter the name of the item: "), decrease_amount=int(input("\nEnter the number to decrease the stock by: ")))
-                except ValueError as e:
-                    print(f"\nException caught - {e}\nMake sure to enter the correct data type")
+                case "4":
+                    try:
+                        add_stock(item_name=input("\nEnter the name of the item: "), increase_amount=int(input("\nEnter the number to increase the stock by: ")))
+                    except ValueError as e:
+                        print(f"\nException caught - {e}\nMake sure to enter the correct data type")
 
-            case "6":
-                exit_system = True
+                case "5":
+                    try:
+                        remove_stock(item_name=input("\nEnter the name of the item: "), decrease_amount=int(input("\nEnter the number to decrease the stock by: ")))
+                    except ValueError as e:
+                        print(f"\nException caught - {e}\nMake sure to enter the correct data type")
 
-            case _:
-                print("\nOption not recognized, try again!")
+                case "6":
+                    exit_system = True
+
+                case _:
+                    print("\nOption not recognized, try again!")
+
+main()
