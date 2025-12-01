@@ -65,6 +65,11 @@ while exit_system == False:
     try:
         choice = input("\nEnter what you would like to do (0-6): ")
 
+    except Exception as e:
+        print(f"\nUnknow exception caught - {e}")
+        exit_system = True
+    
+    else:
         match choice:
             case "0":
                 display_stock_list()
@@ -96,7 +101,3 @@ while exit_system == False:
 
             case _:
                 print("\nOption not recognized, try again!")
-
-    except Exception as e:
-        print(f"\nUnknow exception caught - {e}")
-        exit_system = True
