@@ -30,22 +30,17 @@ def write_to_file(dataset: list, filename: str):
 
 
 
-def read_all_items_from_file(filename):
+def display_all_items_from_file(filename):
     try:
-        file = open(filename, "r")
+        with open(filename, "r") as file:
+            print("\nDisplaying all products\n")
+            for line in file:
+                split_line = line.split(",")
+                print(f" - Product: {split_line[0]}   |   Price: {split_line[1]}   |   Stock level: {split_line[2]}")
     except Exception as ex:
         print(f"Data not read - {ex}")
-    else:
-        print("\nDisplaying all products\n")
-        all_lines = []
-        for line in file:
-            split_line = line.split(",")
-            all_lines.append(split_line)
-            print(f" - Product: {split_line[0]}   |   Price: {split_line[1]}   |   Stock level: {split_line[2]}")
-    finally:
-        file.close()
+        
     
-    return split_line
 
 
 def add_stock(item_name: str, increase_amount=1) -> None:
@@ -113,7 +108,7 @@ def main():
         else:
             match choice:
                 case "0":
-                    read_all_items_from_file("products.csv")
+                    display_all_items_from_file("products.csv")
 
                 case "1":
                     total_stock_price = calculate_total_stock_price()
