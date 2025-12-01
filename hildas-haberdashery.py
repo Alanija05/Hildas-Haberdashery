@@ -20,14 +20,22 @@ def add_stock(item_name: str, increase_amount=1) -> None:
             return
     print("Item not found")
 
+def remove_stock(item_name: str, decrease_amount=1) -> None:
+    for item in stock_list:
+        if item_name.lower() == item[0]:
+            item[2] -= decrease_amount
+            print(f"\nItem found. Decreased stock by {decrease_amount} for a total of {item[2]}")
+            return
+    print("Item not found")
+
 
 exit_system = False
 
 print("Welcome to Hilda's Haberdashery system! What would you like to do:")
 while exit_system == False:
-    print("\n1. Print total stock price\n2. Print item stock\n3. Print item price\n4. Add stock\n5. Quit")
+    print("\n1. Print total stock price\n2. Print item stock\n3. Print item price\n4. Add stock\n5. Remove stock\n6. Exit system")
     try:
-        choice = input("\nEnter what you would like to do (1-4): ")
+        choice = input("\nEnter what you would like to do (1-6): ")
 
         match choice:
             case "1":
@@ -72,6 +80,14 @@ while exit_system == False:
                     print(f"\nException caught - {e}\nMake sure to enter the correct data type")
 
             case "5":
+                try:
+                    item_name = input("\nEnter the name of the item: ")
+                    decrease_amount = int(input("\nEnter the number to decrease the stock by: "))
+                    remove_stock(item_name=item_name, decrease_amount=decrease_amount)
+                except ValueError as e:
+                    print(f"\nException caught - {e}\nMake sure to enter the correct data type")
+
+            case "6":
                 exit_system = True
 
             case _:
