@@ -13,7 +13,7 @@ stock_list = [
 ]
 
 
-
+# Function to initialize the file. Not used in working program
 def write_to_file(dataset: list, filename: str) -> None:
     try:
         file = open(filename, "w+")
@@ -56,13 +56,29 @@ def print_item_from_file(item_name: str, filename: str) -> None:
         print(f"Data not read - {ex}")
 
 
-def add_stock(item_name: str, increase_amount=1) -> None:
-    for item in stock_list:
-        if item_name.lower() == item[0]:
-            item[2] += increase_amount
-            print(f"\nItem found. Increased stock by {increase_amount} for a total of {item[2]}")
-            return
-    print("Item not found")
+
+def add_stock_to_file(item_name: str, filename: str, increase_amount=1) -> None:
+    product_found = False
+    try:
+        with open(filename, "r") as infile, open(".products_temp.csv", "w") as outfile:
+            for line in infile:
+                split_line = line.split(",")
+                if item_name.lower() == split_line[0]:
+                    split_line[2] = int(split_line[2]) + increase_amount
+                    line = split_line[0] + "," + str(split_line[1]) + "," + str(split_line[2]) + "\n"
+                    new_stock_level = split_line[2]
+                    product_found = True
+                outfile.write(line)
+            if product_found == False:
+                print("\nProduct not found")
+                return
+        
+        with open(filename, "w") as infile, open(".products_temp.csv", "r") as outfile:
+            for line in outfile:
+                infile.write(line)
+            print(f"\nStock successfully updated for {item_name} by {increase_amount} for a total of {new_stock_level}")
+    except Exception as ex:
+        print(f"Data not updated - {ex}")
 
 
 
@@ -118,7 +134,7 @@ def main():
 
                 case "3":
                     try:
-                        add_stock(item_name=input("\nEnter the name of the item: "), increase_amount=int(input("\nEnter the number to increase the stock by: ")))
+                        add_stock_to_file(item_name=input("Enter item name: "), filename="products.csv", increase_amount=int(input("Enter increase amount: ")))
                     except ValueError as e:
                         print(f"\nException caught - {e}\nMake sure to enter the correct data type")
 
