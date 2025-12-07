@@ -105,14 +105,38 @@ def remove_stock_from_file(item_name: str, filename: str, decrease_amount=1) -> 
 
 
 
+def manually_change_stock_in_file(item_name: str, filename: str, change_amount: int) -> None:
+    product_found = False
+    try:
+        with open(filename, "r") as infile, open(".products_temp.csv", "w") as outfile:
+            for line in infile:
+                split_line = line.split(",")
+                if item_name.lower() == split_line[0]:
+                    split_line[2] = change_amount
+                    line = split_line[0] + "," + str(split_line[1]) + "," + str(split_line[2]) + "\n"
+                    product_found = True
+                outfile.write(line)
+            if product_found == False:
+                print("\nProduct not found")
+                return
+        
+        with open(filename, "w") as infile, open(".products_temp.csv", "r") as outfile:
+            for line in outfile:
+                infile.write(line)
+            print(f"\nStock successfully changed for {item_name} to {change_amount}")
+    except Exception as ex:
+        print(f"Data not updated - {ex}")
+
+
+
 def main():
     exit_system = False
 
     print("Welcome to Hilda's Haberdashery system! What would you like to do:")
     while exit_system == False:
-        print("\n0. Display stock list\n1. Print item details\n2. Calculate total stock price\n3. Add stock\n4. Remove stock\n5. Exit system")
+        print("\n0. Display stock list\n1. Print item details\n2. Calculate total stock price\n3. Add stock\n4. Remove stock\n5. Manually change stock\n6. Exit system")
         try:
-            choice = input("\nEnter what you would like to do (0-5): ")
+            choice = input("\nEnter what you would like to do (0-6): ")
 
         except Exception as e:
             print(f"\nUnknow exception caught - {e}")
@@ -146,6 +170,12 @@ def main():
                         print(f"\nException caught - {e}\nMake sure to enter the correct data type")
 
                 case "5":
+                    try:
+                        manually_change_stock_in_file(item_name=input("\nEnter item name: "), filename="products.csv", change_amount=int(input("\nEnter change amount: ")))
+                    except ValueError as e:
+                        print(f"\nException caught - {e}\nMake sure to enter the correct data type")
+
+                case "6":
                     exit_system = True
 
                 case _:
