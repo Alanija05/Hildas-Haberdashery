@@ -3,14 +3,17 @@
 def write_to_file(dataset: list, filename: str) -> None:
     try:
         file = open(filename, "w+")
+
     except Exception as ex:
         print(f"Data not written - {ex}")
+
     else:
         file.write("Product name, Price, Stock\n")
         for item in dataset:
             line = item[0] + ",£" + str(item[1]) + "," + str(item[2]) + "\n"
             file.write(line)
         print(f"Data written to {filename}")
+
     finally:
         file.close()
 
@@ -20,9 +23,11 @@ def display_all_items_from_file(filename: str) -> None:
     try:
         with open(filename, "r") as file:
             print("\nDisplaying all products\n")
+
             for line in file:
                 split_line = line.split(",")
                 print(f" - Product: {split_line[0]}   |   Price: {split_line[1]}   |   Stock level: {split_line[2]}")
+
     except Exception as ex:
         print(f"Data not read - {ex}")
 
@@ -33,11 +38,14 @@ def print_item_from_file(item_name: str, filename: str) -> None:
         with open(filename, "r") as file:
             for line in file:
                 split_line = line.split(",")
+
                 if item_name.lower() == split_line[0]:
                     print("\nFound product. Displaying details:\n")
                     print(f" - Product: {split_line[0]}   |   Price: {split_line[1]}   |   Stock level: {split_line[2]}")
                     return
+                
             print("\nProduct not found")
+
     except Exception as ex:
         print(f"Data not read - {ex}")
 
@@ -57,16 +65,20 @@ def calculate_total_stock_price_from_file(filename: str) -> float:
 
 def add_stock_to_file(item_name: str, filename: str, increase_amount=1) -> None:
     product_found = False
+
     try:
         with open(filename, "r") as infile, open(".products_temp.csv", "w") as outfile:
             for line in infile:
                 split_line = line.split(",")
+
                 if item_name.lower() == split_line[0]:
                     split_line[2] = int(split_line[2]) + increase_amount
                     line = split_line[0] + "," + str(split_line[1]) + "," + str(split_line[2]) + "\n"
                     new_stock_level = split_line[2]
                     product_found = True
+
                 outfile.write(line)
+
             if product_found == False:
                 print("\nProduct not found")
                 return
@@ -75,6 +87,7 @@ def add_stock_to_file(item_name: str, filename: str, increase_amount=1) -> None:
             for line in outfile:
                 infile.write(line)
             print(f"\nStock successfully updated for {item_name} by {increase_amount} for a total of {new_stock_level}")
+
     except Exception as ex:
         print(f"Data not updated - {ex}")
 
@@ -86,12 +99,15 @@ def remove_stock_from_file(item_name: str, filename: str, decrease_amount=1) -> 
         with open(filename, "r") as infile, open(".products_temp.csv", "w") as outfile:
             for line in infile:
                 split_line = line.split(",")
+
                 if item_name.lower() == split_line[0]:
                     split_line[2] = int(split_line[2]) - decrease_amount
                     line = split_line[0] + "," + str(split_line[1]) + "," + str(split_line[2]) + "\n"
                     new_stock_level = split_line[2]
                     product_found = True
+
                 outfile.write(line)
+
             if product_found == False:
                 print("\nProduct not found")
                 return
@@ -99,7 +115,9 @@ def remove_stock_from_file(item_name: str, filename: str, decrease_amount=1) -> 
         with open(filename, "w") as infile, open(".products_temp.csv", "r") as outfile:
             for line in outfile:
                 infile.write(line)
+
             print(f"\nStock successfully updated for {item_name} by -{decrease_amount} for a total of {new_stock_level}")
+
     except Exception as ex:
         print(f"Data not updated - {ex}")
 
@@ -111,11 +129,14 @@ def manually_change_stock_in_file(item_name: str, filename: str, change_amount: 
         with open(filename, "r") as infile, open(".products_temp.csv", "w") as outfile:
             for line in infile:
                 split_line = line.split(",")
+
                 if item_name.lower() == split_line[0]:
                     split_line[2] = change_amount
                     line = split_line[0] + "," + str(split_line[1]) + "," + str(split_line[2]) + "\n"
                     product_found = True
+
                 outfile.write(line)
+
             if product_found == False:
                 print("\nProduct not found")
                 return
@@ -123,7 +144,9 @@ def manually_change_stock_in_file(item_name: str, filename: str, change_amount: 
         with open(filename, "w") as infile, open(".products_temp.csv", "r") as outfile:
             for line in outfile:
                 infile.write(line)
+
             print(f"\nStock successfully changed for {item_name} to {change_amount}")
+            
     except Exception as ex:
         print(f"Data not updated - {ex}")
 
