@@ -57,6 +57,18 @@ def print_item_from_file(item_name: str, filename: str) -> None:
 
 
 
+def calculate_total_stock_price_from_file(filename: str) -> float:
+    total_stock_price = 0
+
+    with open(filename, "r") as file:
+        for line in file:
+            split_line = line.split(",")
+            total_stock_price += (float(split_line[1]) * int(split_line[2]))
+
+    return total_stock_price
+
+
+
 def add_stock_to_file(item_name: str, filename: str, increase_amount=1) -> None:
     product_found = False
     try:
@@ -107,18 +119,6 @@ def remove_stock_from_file(item_name: str, filename: str, decrease_amount=1) -> 
 
 
 
-def calculate_total_stock_price() -> float:
-    total_stock_price = 0
-
-    for item in stock_list:
-        item_stock_price = item[1] * item[2]
-        total_stock_price += item_stock_price
-
-    return total_stock_price
-
-
-
-
 def main():
     exit_system = False
 
@@ -144,7 +144,7 @@ def main():
                         print(f"Exception caught - {ex}")
 
                 case "2":
-                    total_stock_price = calculate_total_stock_price()
+                    total_stock_price = calculate_total_stock_price_from_file("products.csv")
                     print(f"\nThe total stock price is £{total_stock_price:.2f}")
 
                 case "3":
