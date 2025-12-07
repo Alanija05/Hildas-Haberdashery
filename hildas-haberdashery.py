@@ -1,17 +1,3 @@
-# All products are listed below
-stock_list = [
-    ["sewing thread", 1.20, 184],
-    ["zipper", 0.65, 97],
-    ["wooden buttons", 1.80, 142],
-    ["iron on interfacing", 2.50, 76],
-    ["bias binding", 1.10, 213],
-    ["hook-and-eye set", 0.90, 58],
-    ["seam ripper", 1.50, 34],
-    ["tailors chalk", 1.25, 89],
-    ["elastic", 0.75, 167],
-    ["thimble", 1, 121]
-]
-
 
 # Function to initialize the file. Not used in working program
 def write_to_file(dataset: list, filename: str) -> None:
