@@ -1,3 +1,44 @@
+from tkinter import *
+
+main_window = Tk()
+
+def create_main_window():
+    # Initialize Main Window
+    global main_window
+    main_window.title("Hilda's Haberdashery Program")
+
+    main_window_label = Label(main_window,
+                              text="Welcome to Hilda's Haberdashery Program",
+                              font=("Calibri", 30))
+    main_window_label.grid(row=0, column=0, columnspan=2)
+
+    display_all_items_button = Button(main_window,
+                                      text="Display all items",
+                                      font=("Calibri",15))
+    display_all_items_button.grid(row=1, column=0, padx=15, pady=15)
+
+    display_single_item_button = Button(main_window,
+                                      text="Display single item",
+                                      font=("Calibri",15))
+    display_single_item_button.grid(row=2, column=0, padx=15, pady=15)
+
+    add_stock_button = Button(main_window,
+                                      text="Add stock",
+                                      font=("Calibri",15))
+    add_stock_button.grid(row=1, column=1, padx=15, pady=15)
+
+    remove_stock_button = Button(main_window,
+                                      text="Remove stock",
+                                      font=("Calibri",15))
+    remove_stock_button.grid(row=2, column=1, padx=15, pady=15)
+
+    exit_system_button = Button(main_window,
+                                      text="Exit system",
+                                      font=("Calibri",15),
+                                      command=exit_system)
+    exit_system_button.grid(row=3, column=0, columnspan=2, pady=15)
+
+
 
 # Function to initialize the file. Not used in working program
 def write_to_file(dataset: list, filename: str) -> None:
@@ -150,11 +191,18 @@ def manually_change_stock_in_file(item_name: str, filename: str, change_amount: 
     except Exception as ex:
         print(f"Data not updated - {ex}")
 
+def exit_system():
+    global main_window
+    main_window.destroy()
+
 
 
 def main():
+    create_main_window()
+    main_window.mainloop()
     exit_system = False
 
+    """
     print("Welcome to Hilda's Haberdashery system! What would you like to do:")
     while exit_system == False:
         print("\n0. Display stock list\n1. Print item details\n2. Calculate total stock price\n3. Add stock\n4. Remove stock\n5. Manually change stock\n6. Exit system")
@@ -203,5 +251,6 @@ def main():
 
                 case _:
                     print("\nOption not recognized, try again!")
+    """
 
 main()
