@@ -72,7 +72,7 @@ def add_stock_to_file(item_name: str, filename: str, increase_amount=1) -> None:
                 split_line = line.split(",")
 
                 if item_name.lower() == split_line[0]:
-                    split_line[2] = int(split_line[2]) + increase_amount
+                    split_line[2] = str(int(split_line[2]) + increase_amount)
                     line = split_line[0] + "," + str(split_line[1]) + "," + str(split_line[2]) + "\n"
                     new_stock_level = split_line[2]
                     product_found = True
@@ -101,7 +101,7 @@ def remove_stock_from_file(item_name: str, filename: str, decrease_amount=1) -> 
                 split_line = line.split(",")
 
                 if item_name.lower() == split_line[0]:
-                    split_line[2] = int(split_line[2]) - decrease_amount
+                    split_line[2] = str(int(split_line[2]) - decrease_amount)
                     line = split_line[0] + "," + str(split_line[1]) + "," + str(split_line[2]) + "\n"
                     new_stock_level = split_line[2]
                     product_found = True
@@ -131,7 +131,7 @@ def manually_change_stock_in_file(item_name: str, filename: str, change_amount: 
                 split_line = line.split(",")
 
                 if item_name.lower() == split_line[0]:
-                    split_line[2] = change_amount
+                    split_line[2] = str(change_amount)
                     line = split_line[0] + "," + str(split_line[1]) + "," + str(split_line[2]) + "\n"
                     product_found = True
 
