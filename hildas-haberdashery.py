@@ -14,29 +14,110 @@ def create_main_window():
 
     display_all_items_button = Button(main_window,
                                       text="Display all items",
-                                      font=("Calibri",15))
+                                      font=("Calibri",15),
+                                      command=display_all_items)
     display_all_items_button.grid(row=1, column=0, padx=15, pady=15)
 
     display_single_item_button = Button(main_window,
                                       text="Display single item",
-                                      font=("Calibri",15))
+                                      font=("Calibri",15),
+                                      command=display_single_item)
     display_single_item_button.grid(row=2, column=0, padx=15, pady=15)
 
-    add_stock_button = Button(main_window,
-                                      text="Add stock",
-                                      font=("Calibri",15))
-    add_stock_button.grid(row=1, column=1, padx=15, pady=15)
+    add_item_button = Button(main_window,
+                                      text="Add item",
+                                      font=("Calibri",15),
+                                      command=add_item)
+    add_item_button.grid(row=1, column=1, padx=15, pady=15)
 
-    remove_stock_button = Button(main_window,
-                                      text="Remove stock",
-                                      font=("Calibri",15))
-    remove_stock_button.grid(row=2, column=1, padx=15, pady=15)
+    remove_item_button = Button(main_window,
+                                      text="Remove item",
+                                      font=("Calibri",15),
+                                      command=remove_item)
+    remove_item_button.grid(row=2, column=1, padx=15, pady=15)
+
+    change_stock_button = Button(main_window,
+                                      text="Change stock",
+                                      font=("Calibri",15),
+                                      command=change_stock)
+    change_stock_button.grid(row=3, column=0, padx=15, pady=15)
 
     exit_system_button = Button(main_window,
                                       text="Exit system",
                                       font=("Calibri",15),
                                       command=exit_system)
-    exit_system_button.grid(row=3, column=0, columnspan=2, pady=15)
+    exit_system_button.grid(row=3, column=1, padx=15, pady=15)
+
+
+
+def go_back(child, parent):
+    child.destroy()
+    parent.deiconify()
+
+
+
+def display_all_items():
+    main_window.withdraw()
+    display_all_items_window = Toplevel(main_window)
+    display_all_items_window.geometry("300x300")
+
+    go_back_button = Button(display_all_items_window,
+                            text="Go back",
+                            font=("Calibri",15),
+                            command=lambda: go_back(display_all_items_window, main_window))
+    go_back_button.grid(row=0, column=0, padx=15, pady=15)
+
+
+
+def display_single_item():
+    main_window.withdraw()
+    display_single_item_window = Toplevel(main_window)
+    display_single_item_window.geometry("300x300")
+
+    go_back_button = Button(display_single_item_window,
+                            text="Go back",
+                            font=("Calibri",15),
+                            command=lambda: go_back(display_single_item_window, main_window))
+    go_back_button.grid(row=0, column=0, padx=15, pady=15)
+
+
+
+def add_item():
+    main_window.withdraw()
+    add_item_window = Toplevel(main_window)
+    add_item_window.geometry("300x300")
+
+    go_back_button = Button(add_item_window,
+                            text="Go back",
+                            font=("Calibri",15),
+                            command=lambda: go_back(add_item_window, main_window))
+    go_back_button.grid(row=0, column=0, padx=15, pady=15)
+
+
+
+def remove_item():
+    main_window.withdraw()
+    remove_item_window = Toplevel(main_window)
+    remove_item_window.geometry("300x300")
+
+    go_back_button = Button(remove_item_window,
+                            text="Go back",
+                            font=("Calibri",15),
+                            command=lambda: go_back(remove_item_window, main_window))
+    go_back_button.grid(row=0, column=0, padx=15, pady=15)
+
+
+
+def change_stock():
+    main_window.withdraw()
+    change_stock_window = Toplevel(main_window)
+    change_stock_window.geometry("300x300")
+
+    go_back_button = Button(change_stock_window,
+                            text="Go back",
+                            font=("Calibri",15),
+                            command=lambda: go_back(change_stock_window, main_window))
+    go_back_button.grid(row=0, column=0, padx=15, pady=15)
 
 
 
