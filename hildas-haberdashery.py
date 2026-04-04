@@ -156,13 +156,76 @@ def display_single_item():
 def add_item():
     main_window.withdraw()
     add_item_window = Toplevel(main_window)
-    add_item_window.geometry("300x300")
+    add_item_window.geometry("300x350")
 
-    go_back_button = Button(add_item_window,
-                            text="Go back",
-                            font=("Calibri",15),
-                            command=lambda: go_back(add_item_window, main_window))
-    go_back_button.grid(row=0, column=0, padx=15, pady=15)
+    error_label = Label(add_item_window,
+                        font=("Calibri", 15))
+
+    def write_item_to_file(item_name: str, price: float, stock: int):
+        try:
+            with open("products.csv", "a") as file:
+                line = f"{item_name},{price},{stock}"
+                file.write(line)
+                
+        except Exception as ex:
+            print(f"Data not read - {ex}")
+
+    item_name_label = Label(add_item_window,
+                            text="Item name:",
+                            font=("Calibri", 15))
+    item_name_label.grid(row=1, column=0, pady=15)
+
+    item_name_entry = Entry(add_item_window)
+    item_name_entry.grid(row=1, column=1, pady=15)
+
+
+    price_label = Label(add_item_window,
+                            text="Item price:",
+                            font=("Calibri", 15))
+    price_label.grid(row=2, column=0, pady=15)
+
+    price_entry = Entry(add_item_window)
+    price_entry.grid(row=2, column=1, pady=15)
+
+
+    stock_label = Label(add_item_window,
+                            text="Item name:",
+                            font=("Calibri", 15))
+    stock_label.grid(row=3, column=0, pady=15)
+
+    stock_entry = Entry(add_item_window)
+    stock_entry.grid(row=3, column=1, pady=15)
+
+
+    def validate_and_add_item():
+        item_name = item_name_entry.get().strip()
+        price = price_entry.get().strip()
+        stock = stock_entry.get().strip()
+
+        # Check all fields have input
+        if not item_name or not price or not stock:
+            error_label.config(text="All fields must be filled in")
+            error_label.grid(row=6, column=0, columnspan=2, pady=15)
+            return
+
+        try:
+            price = float(price)
+            stock = int(stock)
+        except ValueError:
+            error_label.config(text="Price must be a number, stock must be a whole number")
+            error_label.grid(row=6, column=0, columnspan=2, pady=15)
+            return
+
+        write_item_to_file(item_name, price, stock)
+
+
+    product_entry_submit = Button(add_item_window,
+                                  text="Add item",
+                                  font=("Calibri", 15),
+                                  command=validate_and_add_item)
+    product_entry_submit.grid(row=4, column=0, columnspan=2, pady=15)
+
+    go_back_button = gb_button(add_item_window, main_window)
 
 
 
