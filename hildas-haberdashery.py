@@ -93,7 +93,55 @@ def display_all_items():
 def display_single_item():
     main_window.withdraw()
     display_single_item_window = Toplevel(main_window)
-    display_single_item_window.geometry("300x300")
+    display_single_item_window.geometry("600x400")
+
+    main_label = Label(display_single_item_window,
+                    text="Search for item to display data",
+                    font=("Calibri", 30))
+    main_label.grid(row=0, column=0, columnspan=2)
+
+    error_label = Label(display_single_item_window,
+                        font=("Calibri", 15))
+                
+    product_label = Label(display_single_item_window,
+                          font=("Calibri", 15))
+
+    def find_and_display_item(item_name):
+        try:
+            with open("products.csv", "r") as file:
+                found = False
+                
+                for i, line in enumerate(file):
+                    split_line = line.split(",")
+
+                    if split_line[0] == item_name.lower():
+                        found = True
+
+                        product_label.config(text=f" - Product: {split_line[0]}   |   Price: {split_line[1]}   |   Stock level: {split_line[2]}")    
+                        product_label.grid(row=i + 4, column=0, columnspan=2, pady=15)
+                        break
+
+                if found:
+                    error_label.config(text=" ")
+                
+                else:
+                    error_label.config(text="Product not found")
+
+                error_label.grid(row=3, column=0, columnspan=2)
+
+        except Exception as ex:
+            print(f"Data not read - {ex}")
+
+    product_entry = Entry(display_single_item_window)
+    product_entry.grid(row=1, column=0, columnspan=2, pady=15)
+
+    product_entry_submit = Button(display_single_item_window,
+                                  text="Search for item",
+                                  font=("Calibri", 15),
+                                  command=lambda: find_and_display_item(str(product_entry.get())))
+    product_entry_submit.grid(row=2, column=0, columnspan=2, pady=15)
+
+
 
     go_back_button = gb_button(display_single_item_window, main_window)
 
