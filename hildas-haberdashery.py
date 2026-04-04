@@ -1,4 +1,4 @@
-from tkinter import *
+from tkinter import * # type: ignore
 
 main_window = Tk()
 
@@ -48,7 +48,15 @@ def create_main_window():
                                       command=exit_system)
     exit_system_button.grid(row=3, column=1, padx=15, pady=15)
 
-
+class gb_button(Button):
+    def __init__(self, child_window, parent_window):
+        super().__init__(
+            child_window,
+            text = "Go back",
+            font = ("Calibri",15),
+            command = lambda: go_back(child_window, parent_window)
+        )
+        self.grid(row=15, column=0, columnspan=2, padx=15, pady=15)
 
 def go_back(child, parent):
     child.destroy()
@@ -59,14 +67,27 @@ def go_back(child, parent):
 def display_all_items():
     main_window.withdraw()
     display_all_items_window = Toplevel(main_window)
-    display_all_items_window.geometry("300x300")
 
-    go_back_button = Button(display_all_items_window,
-                            text="Go back",
-                            font=("Calibri",15),
-                            command=lambda: go_back(display_all_items_window, main_window))
-    go_back_button.grid(row=0, column=0, padx=15, pady=15)
+    try:
+        with open("products.csv", "r") as file:
+            main_label = Label(display_all_items_window,
+                               text="Displaying all products",
+                               font=("Calibri", 15))
+            main_label.grid(row=0, column=0, columnspan=2)
 
+            for i, line in enumerate(file):
+                split_line = line.split(",")
+                product_label = Label(display_all_items_window,
+                                      text=f" - Product: {split_line[0]}   |   Price: {split_line[1]}   |   Stock level: {split_line[2]}",
+                                        font=("Calibri", 15))
+                product_label.grid(row=i + 1, column=0, columnspan=2, pady=15)
+
+    except Exception as ex:
+        print(f"Data not read - {ex}")
+
+    go_back_button = gb_button(display_all_items_window, main_window)
+
+    
 
 
 def display_single_item():
@@ -74,11 +95,7 @@ def display_single_item():
     display_single_item_window = Toplevel(main_window)
     display_single_item_window.geometry("300x300")
 
-    go_back_button = Button(display_single_item_window,
-                            text="Go back",
-                            font=("Calibri",15),
-                            command=lambda: go_back(display_single_item_window, main_window))
-    go_back_button.grid(row=0, column=0, padx=15, pady=15)
+    go_back_button = gb_button(display_single_item_window, main_window)
 
 
 
@@ -100,11 +117,7 @@ def remove_item():
     remove_item_window = Toplevel(main_window)
     remove_item_window.geometry("300x300")
 
-    go_back_button = Button(remove_item_window,
-                            text="Go back",
-                            font=("Calibri",15),
-                            command=lambda: go_back(remove_item_window, main_window))
-    go_back_button.grid(row=0, column=0, padx=15, pady=15)
+    go_back_button = gb_button(remove_item_window, main_window)
 
 
 
@@ -113,11 +126,7 @@ def change_stock():
     change_stock_window = Toplevel(main_window)
     change_stock_window.geometry("300x300")
 
-    go_back_button = Button(change_stock_window,
-                            text="Go back",
-                            font=("Calibri",15),
-                            command=lambda: go_back(change_stock_window, main_window))
-    go_back_button.grid(row=0, column=0, padx=15, pady=15)
+    go_back_button = gb_button(change_stock_window, main_window)
 
 
 
