@@ -42,11 +42,17 @@ def create_main_window():
                                       command=change_stock)
     change_stock_button.grid(row=3, column=0, padx=15, pady=15)
 
+    change_price_button = Button(main_window,
+                                      text="Change price",
+                                      font=("Calibri",15),
+                                      command=change_price)
+    change_price_button.grid(row=3, column=1, padx=15, pady=15)
+
     exit_system_button = Button(main_window,
                                       text="Exit system",
                                       font=("Calibri",15),
                                       command=exit_system)
-    exit_system_button.grid(row=3, column=1, padx=15, pady=15)
+    exit_system_button.grid(row=4, column=0, columnspan=2, padx=15, pady=15)
 
 class gb_button(Button):
     def __init__(self, child_window, parent_window):
@@ -175,6 +181,15 @@ def change_stock():
     change_stock_window.geometry("300x300")
 
     go_back_button = gb_button(change_stock_window, main_window)
+
+
+
+def change_price():
+    main_window.withdraw()
+    change_price_window = Toplevel(main_window)
+    change_price_window.geometry("300x300")
+
+    go_back_button = gb_button(change_price_window, main_window)
 
 
 
