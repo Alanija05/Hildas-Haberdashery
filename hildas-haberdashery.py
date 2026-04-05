@@ -171,7 +171,7 @@ def add_item():
             print(f"Data not read - {ex}")
 
     item_name_label = Label(add_item_window,
-                            text="Item name:",
+                            text="Name:",
                             font=("Calibri", 15))
     item_name_label.grid(row=1, column=0, pady=15)
 
@@ -180,7 +180,7 @@ def add_item():
 
 
     price_label = Label(add_item_window,
-                            text="Item price:",
+                            text="Price:",
                             font=("Calibri", 15))
     price_label.grid(row=2, column=0, pady=15)
 
@@ -189,7 +189,7 @@ def add_item():
 
 
     stock_label = Label(add_item_window,
-                            text="Item name:",
+                            text="Stock:",
                             font=("Calibri", 15))
     stock_label.grid(row=3, column=0, pady=15)
 
