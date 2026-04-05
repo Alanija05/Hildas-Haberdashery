@@ -1,4 +1,5 @@
 from tkinter import * # type: ignore
+import os
 
 main_window = Tk()
 
@@ -202,7 +203,6 @@ def add_item():
         price = price_entry.get().strip()
         stock = stock_entry.get().strip()
 
-        # Check all fields have input
         if not item_name or not price or not stock:
             error_label.config(text="All fields must be filled in")
             error_label.grid(row=6, column=0, columnspan=2, pady=15)
@@ -233,6 +233,50 @@ def remove_item():
     main_window.withdraw()
     remove_item_window = Toplevel(main_window)
     remove_item_window.geometry("300x300")
+
+    message_label = Label(remove_item_window,
+                          font=("Calibri", 15))
+
+    def find_and_remove(item_name):
+        try:
+            found = False
+            with open("products.csv", "r") as infile, open(".products_temp.csv", "w") as outfile:
+                for line in infile:
+                    split_line = line.split(',')
+                    
+                    if not item_name.lower() == split_line[0]:
+                        outfile.write(line)
+
+                    else:
+                        found = True
+                
+                os.replace(".products_temp.csv", "products.csv")
+
+                if found:
+                    message_label.config(text="Item found and deleted")
+                    
+                else:
+                    message_label.config(text="Item not found")
+
+                message_label.grid(row=2, column=0, columnspan=2, pady=15)
+                    
+
+        except Exception as ex:
+            print(f"Data not read - {ex}")
+
+    item_name_label = Label(remove_item_window,
+                            text="Name:",
+                            font=("Calibri", 15))
+    item_name_label.grid(row=0, column=0, pady=15)
+
+    item_name_entry = Entry(remove_item_window)
+    item_name_entry.grid(row=0, column=1, pady=15)
+
+    item_name_submit = Button(remove_item_window,
+                                  text="Remove item",
+                                  font=("Calibri", 15),
+                                  command=lambda: find_and_remove(str(item_name_entry.get())))
+    item_name_submit.grid(row=1, column=0, columnspan=2, pady=15)
 
     go_back_button = gb_button(remove_item_window, main_window)
 
