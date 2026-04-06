@@ -357,6 +357,61 @@ def change_price():
     change_price_window = Toplevel(main_window)
     change_price_window.geometry("300x300")
 
+    message_label = Label(change_price_window,
+                          font=("Calibri", 15))
+
+    def find_and_change_price(item_name: str, target_price: str):
+        try:
+            found = False
+            with open("products.csv", "r") as infile, open(".products_temp.csv", "w") as outfile:
+                for line in infile:
+                    split_line = line.split(',')
+                    
+                    if not item_name.lower() == split_line[0]:
+                        outfile.write(line)
+
+                    else:
+                        line = f"{split_line[0]},{target_price},{split_line[2]}\n"
+                        outfile.write(line)
+                        found = True
+                
+                os.replace(".products_temp.csv", "products.csv")
+
+                if found:
+                    message_label.config(text=f"Item {item_name} found and price chaged  to {target_price}")
+                    
+                else:
+                    message_label.config(text=f"Item {item_name} not found")
+
+                message_label.grid(row=3, column=0, columnspan=2, pady=15, padx=15)
+                    
+
+        except Exception as ex:
+            print(f"Data not read - {ex}")
+
+    item_name_label = Label(change_price_window,
+                            text="Name:",
+                            font=("Calibri", 15))
+    item_name_label.grid(row=0, column=0, pady=15)
+
+    item_name_entry = Entry(change_price_window)
+    item_name_entry.grid(row=0, column=1, pady=15)
+
+    target_price_label = Label(change_price_window,
+                            text="Stock:",
+                            font=("Calibri", 15))
+    target_price_label.grid(row=1, column=0, pady=15)
+
+    target_price_entry = Entry(change_price_window)
+    target_price_entry.grid(row=1, column=1, pady=15)
+
+    change_price_submit = Button(change_price_window,
+                                  text="Change price",
+                                  font=("Calibri", 15),
+                                  command=lambda: find_and_change_price(str(item_name_entry.get()), 
+                                                                        str(target_price_entry.get())))
+    change_price_submit.grid(row=2, column=0, columnspan=2, pady=15)
+
     go_back_button = gb_button(change_price_window, main_window)
 
 
