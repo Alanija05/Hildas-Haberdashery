@@ -335,8 +335,8 @@ def change_stock():
             item_name = str(item_name)
             target_stock = int(target_stock)
         except ValueError:
-            message_label.config(text="Price must be a number, stock must be a whole number")
-            message_label.grid(row=6, column=0, columnspan=2, pady=15)
+            message_label.config(text="Item name must be a string, stock must be a whole number")
+            message_label.grid(row=3, column=0, columnspan=2, pady=15)
             return
         
         find_and_change_stock(item_name, target_stock)
@@ -376,7 +376,7 @@ def change_price():
     message_label = Label(change_price_window,
                           font=("Calibri", 15))
 
-    def find_and_change_price(item_name: str, target_price: str):
+    def find_and_change_price(item_name: str, target_price: float):
         try:
             found = False
             with open("products.csv", "r") as infile, open(".products_temp.csv", "w") as outfile:
@@ -405,6 +405,22 @@ def change_price():
         except Exception as ex:
             print(f"Data not read - {ex}")
 
+    def validate(item_name, target_price):
+        if not item_name or not target_price:
+            message_label.config(text="All fields must be filled in")
+            message_label.grid(row=3, column=0, columnspan=2, pady=15)
+            return
+        
+        try:
+            item_name = str(item_name)
+            target_price = float(target_price)
+        except ValueError:
+            message_label.config(text="Item name must be a string, price must be a float")
+            message_label.grid(row=3, column=0, columnspan=2, pady=15)
+            return
+        
+        find_and_change_price(item_name, target_price)
+
     item_name_label = Label(change_price_window,
                             text="Name:",
                             font=("Calibri", 15))
@@ -424,8 +440,8 @@ def change_price():
     change_price_submit = Button(change_price_window,
                                   text="Change price",
                                   font=("Calibri", 15),
-                                  command=lambda: find_and_change_price(str(item_name_entry.get()), 
-                                                                        str(target_price_entry.get())))
+                                  command=lambda: validate(str(item_name_entry.get()), 
+                                                           float(target_price_entry.get())))
     change_price_submit.grid(row=2, column=0, columnspan=2, pady=15)
 
     go_back_button = gb_button(change_price_window, main_window)
