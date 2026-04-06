@@ -296,7 +296,7 @@ def change_stock():
     message_label = Label(change_stock_window,
                           font=("Calibri", 15))
 
-    def find_and_change_stock(item_name: str, target_stock: str):
+    def find_and_change_stock(item_name: str, target_stock: int):
         try:
             found = False
             with open("products.csv", "r") as infile, open(".products_temp.csv", "w") as outfile:
@@ -325,6 +325,22 @@ def change_stock():
         except Exception as ex:
             print(f"Data not read - {ex}")
 
+    def validate(item_name, target_stock):
+        if not item_name or not target_stock:
+            message_label.config(text="All fields must be filled in")
+            message_label.grid(row=3, column=0, columnspan=2, pady=15)
+            return
+        
+        try:
+            item_name = str(item_name)
+            target_stock = int(target_stock)
+        except ValueError:
+            message_label.config(text="Price must be a number, stock must be a whole number")
+            message_label.grid(row=6, column=0, columnspan=2, pady=15)
+            return
+        
+        find_and_change_stock(item_name, target_stock)
+
     item_name_label = Label(change_stock_window,
                             text="Name:",
                             font=("Calibri", 15))
@@ -344,8 +360,8 @@ def change_stock():
     change_stock_submit = Button(change_stock_window,
                                   text="Change stock",
                                   font=("Calibri", 15),
-                                  command=lambda: find_and_change_stock(str(item_name_entry.get()), 
-                                                                        str(target_stock_entry.get())))
+                                  command=lambda: validate(str(item_name_entry.get()), 
+                                                           int(target_stock_entry.get())))
     change_stock_submit.grid(row=2, column=0, columnspan=2, pady=15)
 
     go_back_button = gb_button(change_stock_window, main_window)
