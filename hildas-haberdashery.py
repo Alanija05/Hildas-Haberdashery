@@ -49,11 +49,17 @@ def create_main_window():
                                       command=change_price)
     change_price_button.grid(row=3, column=1, padx=15, pady=15)
 
+    quick_info_button = Button(main_window,
+                                      text="Quick info",
+                                      font=("Calibri",15),
+                                      command=quick_info)
+    quick_info_button.grid(row=4, column=0, padx=15, pady=15)
+
     exit_system_button = Button(main_window,
                                       text="Exit system",
                                       font=("Calibri",15),
                                       command=exit_system)
-    exit_system_button.grid(row=4, column=0, columnspan=2, padx=15, pady=15)
+    exit_system_button.grid(row=4, column=1, padx=15, pady=15)
 
 class gb_button(Button):
     def __init__(self, child_window, parent_window):
@@ -297,6 +303,41 @@ def change_price():
     change_price_window.geometry("300x300")
 
     go_back_button = gb_button(change_price_window, main_window)
+
+
+
+def quick_info():
+    main_window.withdraw()
+    quick_info_window = Toplevel(main_window)
+    quick_info_window.geometry("270x250")
+
+    total_stock_price_label = Label(quick_info_window,
+                                    font=("Calibri", 15))
+    
+    total_stock_quantity_label = Label(quick_info_window,
+                                       font=("Calibri", 15))
+    
+    try:
+        with open("products.csv", "r") as file:
+            total_stock_price = 0
+            total_stock_quantity = 0
+
+            for line in file:
+                split_line = line.split(',')
+
+                total_stock_price += float(split_line[1]) * int(split_line[2])
+                total_stock_quantity += int(split_line[2])
+
+            total_stock_price_label.config(text=f"Total stock price: {round(total_stock_price, 2)}")
+            total_stock_price_label.grid(row=0, column=0, columnspan=2, padx=15, pady=15)
+
+            total_stock_quantity_label.config(text=f"Total stock quantity: {total_stock_quantity}")
+            total_stock_quantity_label.grid(row=1, column=0, columnspan=2, padx=15, pady=15)
+            
+    except Exception as ex:
+        print(f"Data not read - {ex}")
+
+    go_back_button = gb_button(quick_info_window, main_window)
 
 
 
