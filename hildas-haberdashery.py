@@ -291,7 +291,62 @@ def remove_item():
 def change_stock():
     main_window.withdraw()
     change_stock_window = Toplevel(main_window)
-    change_stock_window.geometry("300x300")
+    change_stock_window.geometry("500x330")
+
+    message_label = Label(change_stock_window,
+                          font=("Calibri", 15))
+
+    def find_and_change_stock(item_name: str, target_stock: str):
+        try:
+            found = False
+            with open("products.csv", "r") as infile, open(".products_temp.csv", "w") as outfile:
+                for line in infile:
+                    split_line = line.split(',')
+                    
+                    if not item_name.lower() == split_line[0]:
+                        outfile.write(line)
+
+                    else:
+                        line = f"{split_line[0]},{split_line[1]},{target_stock}\n"
+                        outfile.write(line)
+                        found = True
+                
+                os.replace(".products_temp.csv", "products.csv")
+
+                if found:
+                    message_label.config(text=f"Item {item_name} found and stock chaged  to {target_stock}")
+                    
+                else:
+                    message_label.config(text=f"Item {item_name} not found")
+
+                message_label.grid(row=3, column=0, columnspan=2, pady=15, padx=15)
+                    
+
+        except Exception as ex:
+            print(f"Data not read - {ex}")
+
+    item_name_label = Label(change_stock_window,
+                            text="Name:",
+                            font=("Calibri", 15))
+    item_name_label.grid(row=0, column=0, pady=15)
+
+    item_name_entry = Entry(change_stock_window)
+    item_name_entry.grid(row=0, column=1, pady=15)
+
+    target_stock_label = Label(change_stock_window,
+                            text="Stock:",
+                            font=("Calibri", 15))
+    target_stock_label.grid(row=1, column=0, pady=15)
+
+    target_stock_entry = Entry(change_stock_window)
+    target_stock_entry.grid(row=1, column=1, pady=15)
+
+    change_stock_submit = Button(change_stock_window,
+                                  text="Change stock",
+                                  font=("Calibri", 15),
+                                  command=lambda: find_and_change_stock(str(item_name_entry.get()), 
+                                                                        str(target_stock_entry.get())))
+    change_stock_submit.grid(row=2, column=0, columnspan=2, pady=15)
 
     go_back_button = gb_button(change_stock_window, main_window)
 
